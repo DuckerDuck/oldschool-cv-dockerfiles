@@ -1,0 +1,3 @@
+[submodule "EQCUT/EQCUT-Matlab-Code"]
+	path = EQCUT/EQCUT-Matlab-Code
+	url = git@github.com:CaglarAytekin/EQCUT-Matlab-Code.git

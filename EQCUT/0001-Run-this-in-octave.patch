@@ -1,0 +1,66 @@
+From 22bcb06de4406f303a75085bea1038a9dfb365e7 Mon Sep 17 00:00:00 2001
+From: Jan Schutte <jan.o.schutte@gmail.com>
+Date: Wed, 10 Feb 2021 16:54:25 +0100
+Subject: [PATCH] Run this in octave
+
+---
+ .octaverc | 1 +
+ SLIC.cpp  | 6 +++---
+ main.m    | 4 ++--
+ 3 files changed, 6 insertions(+), 5 deletions(-)
+ create mode 100644 .octaverc
+
+diff --git a/.octaverc b/.octaverc
+new file mode 100644
+index 0000000..4bea0fb
+--- /dev/null
++++ b/.octaverc
+@@ -0,0 +1 @@
++pkg load image
+diff --git a/SLIC.cpp b/SLIC.cpp
+index cdb36c2..0af4765 100644
+--- a/SLIC.cpp
++++ b/SLIC.cpp
+@@ -1,5 +1,5 @@
+ #include "mex.h"
+-#include "matrix.h"
++//#include "matrix.h"
+ #include <cfloat>
+ #include <cmath>
+ #include <iostream>
+@@ -43,7 +43,7 @@ public:
+ 	//======================================================================
+ 	//mean rgb in each superpixel
+ 	//=======================================================================
+-	void SLIC::DoMeanSup( double *  &                    m_rr,
++	void DoMeanSup( double *  &                    m_rr,
+ 	                      double *  &                    m_gg,
+                   	      double *  &                    m_bb,
+ 	                      int &                          numlabels,
+@@ -1012,4 +1012,4 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+ 	
+ 	slic.DoRGBtoLABConversionSup(meanSuprr, meanSupgg, meanSupbb, Supll, Supaa, Supbb, numlabels); 
+ 	
+-}
+\ No newline at end of file
++}
+diff --git a/main.m b/main.m
+index f872850..a488561 100644
+--- a/main.m
++++ b/main.m
+@@ -2,10 +2,10 @@ clear all
+ close all
+ clc
+ %Define Ground Truth (GT) and Image (IM) Paths
+-path_IM='D:\SALIENCY_BENCHMARKS_AND_COMPARISONS\SALIENCY_BENCHMARKS\DUTUMRON5168\Images\';
++path_IM='./images/';
+ 
+ %Define Output Folder (OUT) Path 
+-path_OUT='C:\Users\aytekin\Desktop\EQCUT_SHARE\TESTS\DUTOMRON\';
++path_OUT='./output/';
+ 
+ %Change the .jpg extension accordingly
+ contents=dir([path_IM '*.jpg']);
+-- 
+2.25.1
+
