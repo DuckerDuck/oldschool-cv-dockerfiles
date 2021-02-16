@@ -1,30 +1,18 @@
-From 22bcb06de4406f303a75085bea1038a9dfb365e7 Mon Sep 17 00:00:00 2001
-From: Jan Schutte <jan.o.schutte@gmail.com>
-Date: Wed, 10 Feb 2021 16:54:25 +0100
-Subject: [PATCH] Run this in octave
-
----
- .octaverc | 1 +
- SLIC.cpp  | 6 +++---
- main.m    | 4 ++--
- 3 files changed, 6 insertions(+), 5 deletions(-)
- create mode 100644 .octaverc
-
 diff --git a/.octaverc b/.octaverc
-new file mode 100644
-index 0000000..4bea0fb
---- /dev/null
-+++ b/.octaverc
-@@ -0,0 +1 @@
-+pkg load image
+deleted file mode 100644
+index 4bea0fb..0000000
+--- a/.octaverc
++++ /dev/null
+@@ -1 +0,0 @@
+-pkg load image
 diff --git a/SLIC.cpp b/SLIC.cpp
-index cdb36c2..0af4765 100644
+index 0af4765..cdb36c2 100644
 --- a/SLIC.cpp
 +++ b/SLIC.cpp
 @@ -1,5 +1,5 @@
  #include "mex.h"
--#include "matrix.h"
-+//#include "matrix.h"
+-//#include "matrix.h"
++#include "matrix.h"
  #include <cfloat>
  #include <cmath>
  #include <iostream>
@@ -32,8 +20,8 @@ index cdb36c2..0af4765 100644
  	//======================================================================
  	//mean rgb in each superpixel
  	//=======================================================================
--	void SLIC::DoMeanSup( double *  &                    m_rr,
-+	void DoMeanSup( double *  &                    m_rr,
+-	void DoMeanSup( double *  &                    m_rr,
++	void SLIC::DoMeanSup( double *  &                    m_rr,
  	                      double *  &                    m_gg,
                    	      double *  &                    m_bb,
  	                      int &                          numlabels,
@@ -42,25 +30,40 @@ index cdb36c2..0af4765 100644
  	slic.DoRGBtoLABConversionSup(meanSuprr, meanSupgg, meanSupbb, Supll, Supaa, Supbb, numlabels); 
  	
 -}
-\ No newline at end of file
 +}
+\ No newline at end of file
 diff --git a/main.m b/main.m
-index f872850..a488561 100644
+index 8af3e6e..f872850 100644
 --- a/main.m
 +++ b/main.m
-@@ -2,10 +2,10 @@ clear all
+@@ -2,21 +2,18 @@ clear all
  close all
  clc
  %Define Ground Truth (GT) and Image (IM) Paths
--path_IM='D:\SALIENCY_BENCHMARKS_AND_COMPARISONS\SALIENCY_BENCHMARKS\DUTUMRON5168\Images\';
-+path_IM='./images/';
+-path_IM='./images/';
++path_IM='D:\SALIENCY_BENCHMARKS_AND_COMPARISONS\SALIENCY_BENCHMARKS\DUTUMRON5168\Images\';
  
  %Define Output Folder (OUT) Path 
--path_OUT='C:\Users\aytekin\Desktop\EQCUT_SHARE\TESTS\DUTOMRON\';
-+path_OUT='./output/';
+-path_OUT='./output/';
++path_OUT='C:\Users\aytekin\Desktop\EQCUT_SHARE\TESTS\DUTOMRON\';
  
  %Change the .jpg extension accordingly
  contents=dir([path_IM '*.jpg']);
--- 
-2.25.1
-
+ 
+-fprintf('Number of images found: %d \n', length(contents));
+-
+ 
+ for i=1:length(contents)
+     name=contents(i).name;
+     name=name(1:end-4);
+-    fprintf('Converting %s: ', name);
+     imname=strcat(path_IM,name,'.jpg');
+     image_now=(imread(imname));
+     
+@@ -49,6 +46,5 @@ for i=1:length(contents)
+     
+     %Save the result
+     imwrite(SalMapFinal,[path_OUT name '_EQCUT.png']);
+-    fprintf('Done\n');
+     
+ end
