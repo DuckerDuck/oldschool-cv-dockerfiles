@@ -1,0 +1,65 @@
+diff --git a/motion_smap/flow_code/utils/compute_image_pyramid.m b/motion_smap/flow_code/utils/compute_image_pyramid.m
+index 8720145..2c9ef44 100644
+--- a/motion_smap/flow_code/utils/compute_image_pyramid.m
++++ b/motion_smap/flow_code/utils/compute_image_pyramid.m
+@@ -42,16 +42,16 @@ v = sscanf (version, '%d.%d.%d') ; v = 10.^(0:-1:-(length(v)-1)) * v ;
+ 
+ for m = 2:nL    
+     
+-    % Gaussian filtering 
+-    tmp = imfilter(tmp, f, 'corr', 'symmetric', 'same');           
++    % Gaussian filtering
++    tmp = octave_imfilter(tmp, f, 'corr', 'symmetric', 'same');           
+     sz  = round([size(tmp,1) size(tmp,2)]*ratio);
+     
+     % IMRESIZE changes default algorithm since version 7.4 (R2007a)
+-    if v > 7.3
+-        tmp = imresize(tmp, ratio, 'bilinear', 'Antialiasing', false);   % better than 'nearest'        
+-    else
+-        tmp = imresize(tmp, sz, 'bilinear', 0); % Disable antialiasing, old version for cluster
+-    end;
++    %if v > 7.3
++    %tmp = imresize(tmp, ratio, 'bilinear', 'Antialiasing', false);   % better than 'nearest'        
++    %else
++    tmp = imresize(tmp, sz, 'bilinear'); % Disable antialiasing, old version for cluster
++    %end;
+ 
+     P{m} = tmp;
+ end;
+diff --git a/motion_smap/flow_code/utils/denoise_color_weighted_medfilt2.m b/motion_smap/flow_code/utils/denoise_color_weighted_medfilt2.m
+index a133a1b..149dab8 100644
+--- a/motion_smap/flow_code/utils/denoise_color_weighted_medfilt2.m
++++ b/motion_smap/flow_code/utils/denoise_color_weighted_medfilt2.m
+@@ -70,8 +70,12 @@ end;
+ % % % WMF first then MF
+ % % uvo = uv;
+ 
+-e1 = edge(uv(:,:,1), 'sobel');
+-e2 = edge(uv(:,:,2), 'sobel');
++rescale_uv_1 = octave_rescale(uv(:,:,1));
++rescale_uv_2 = octave_rescale(uv(:,:,2));
++%disp(max(uv(:,:,1)));
++%disp(min(uv(:,:,2)));
++e1 = edge(rescale_uv_1, 'sobel');
++e2 = edge(rescale_uv_2, 'sobel');
+ e  = e1|e2;
+ mask = imdilate(e, ones(dilate_sz) );
+ 
+diff --git a/motion_smap/flow_code/utils/interp2_bicubic.m b/motion_smap/flow_code/utils/interp2_bicubic.m
+index b8c9a6b..d6c1ec8 100644
+--- a/motion_smap/flow_code/utils/interp2_bicubic.m
++++ b/motion_smap/flow_code/utils/interp2_bicubic.m
+@@ -153,11 +153,11 @@ function [ZI, ZXI, ZYI, C, alpha_x, alpha_y, fXI, fYI] = interp2_bicubic(Z, XI,
+     for j = 0:3
+       ZI = ZI + reshape(C(idx, :), input_size) .* alpha_x.^i .* ...
+            alpha_y.^j;
+-      if (i > 0) & (nargout>=2)
++      if (i > 0) && (nargout>=2)
+         ZXI = ZXI + i * reshape(C(idx, :), input_size) .* alpha_x.^(i-1) .* ...
+               alpha_y.^j;
+       end
+-      if (j > 0) & (nargout>=3)
++      if (j > 0) && (nargout>=3)
+         ZYI = ZYI + j * reshape(C(idx, :), input_size) .* alpha_x.^i .* ...
+               alpha_y.^(j - 1);
+       end
