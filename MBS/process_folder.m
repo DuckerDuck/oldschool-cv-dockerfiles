@@ -31,7 +31,7 @@ for i=1:length(images)
     
     %imwrite(pMap1, [output_path name '_MB.png']);
     %imwrite(pMapG, [output_path name '_Geo.png']);
-    imwrite(pMap2, [output_path name '_MBplus.jpg']);
+    imwrite(pMap2, [output_path name '.jpg']);
 
     fprintf('Done\n');
 
