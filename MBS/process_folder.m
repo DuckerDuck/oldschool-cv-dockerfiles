@@ -25,13 +25,13 @@ for i=1:length(images)
     full_path = strcat(input_path, name, '.jpg');
     I = imread(full_path);
 
-    [pMap1, dMap1] = doMBS(I, paramMB);
-    [pMapG, dMapG] = doMBS(I, paramGeo);
+    %[pMap1, dMap1] = doMBS(I, paramMB);
+    %[pMapG, dMapG] = doMBS(I, paramGeo);
     [pMap2] = doMBS(I, paramMBplus); 
     
-    imwrite(pMap1, [output_path name '_MB.png']);
-    imwrite(pMapG, [output_path name '_Geo.png']);
-    imwrite(pMap2, [output_path name '_MBplus.png']);
+    %imwrite(pMap1, [output_path name '_MB.png']);
+    %imwrite(pMapG, [output_path name '_Geo.png']);
+    imwrite(pMap2, [output_path name '_MBplus.jpg']);
 
     fprintf('Done\n');
 
