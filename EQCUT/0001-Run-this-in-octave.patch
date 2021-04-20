@@ -1,18 +1,15 @@
-diff --git a/.octaverc b/.octaverc
-deleted file mode 100644
-index 4bea0fb..0000000
---- a/.octaverc
-+++ /dev/null
-@@ -1 +0,0 @@
--pkg load image
-diff --git a/SLIC.cpp b/SLIC.cpp
-index 0af4765..cdb36c2 100644
+unchanged:
+--- /dev/null
++++ b/.octaverc
+@@ -0,0 +1 @@
++pkg load image
+unchanged:
 --- a/SLIC.cpp
 +++ b/SLIC.cpp
 @@ -1,5 +1,5 @@
  #include "mex.h"
--//#include "matrix.h"
-+#include "matrix.h"
+-#include "matrix.h"
++//#include "matrix.h"
  #include <cfloat>
  #include <cmath>
  #include <iostream>
@@ -20,8 +17,8 @@ index 0af4765..cdb36c2 100644
  	//======================================================================
  	//mean rgb in each superpixel
  	//=======================================================================
--	void DoMeanSup( double *  &                    m_rr,
-+	void SLIC::DoMeanSup( double *  &                    m_rr,
+-	void SLIC::DoMeanSup( double *  &                    m_rr,
++	void DoMeanSup( double *  &                    m_rr,
  	                      double *  &                    m_gg,
                    	      double *  &                    m_bb,
  	                      int &                          numlabels,
@@ -30,40 +27,37 @@ index 0af4765..cdb36c2 100644
  	slic.DoRGBtoLABConversionSup(meanSuprr, meanSupgg, meanSupbb, Supll, Supaa, Supbb, numlabels); 
  	
 -}
-+}
 \ No newline at end of file
-diff --git a/main.m b/main.m
-index 8af3e6e..f872850 100644
---- a/main.m
++}
+diff -u b/main.m b/main.m
+--- b/main.m
 +++ b/main.m
-@@ -2,21 +2,18 @@ clear all
+@@ -2,18 +2,20 @@
  close all
  clc
  %Define Ground Truth (GT) and Image (IM) Paths
--path_IM='./images/';
-+path_IM='D:\SALIENCY_BENCHMARKS_AND_COMPARISONS\SALIENCY_BENCHMARKS\DUTUMRON5168\Images\';
+-path_IM='D:\SALIENCY_BENCHMARKS_AND_COMPARISONS\SALIENCY_BENCHMARKS\DUTUMRON5168\Images\';
++path_IM='./images/';
  
  %Define Output Folder (OUT) Path 
--path_OUT='./output/';
-+path_OUT='C:\Users\aytekin\Desktop\EQCUT_SHARE\TESTS\DUTOMRON\';
+-path_OUT='C:\Users\aytekin\Desktop\EQCUT_SHARE\TESTS\DUTOMRON\';
++path_OUT='./output/';
  
  %Change the .jpg extension accordingly
  contents=dir([path_IM '*.jpg']);
  
--fprintf('Number of images found: %d \n', length(contents));
--
++fprintf('Number of images found: %d \n', length(contents));
  
  for i=1:length(contents)
      name=contents(i).name;
      name=name(1:end-4);
--    fprintf('Converting %s: ', name);
++    fprintf('Converting %s: ', name);
      imname=strcat(path_IM,name,'.jpg');
      image_now=(imread(imname));
      
-@@ -49,6 +46,5 @@ for i=1:length(contents)
-     
+@@ -47,4 +49,5 @@
      %Save the result
      imwrite(SalMapFinal,[path_OUT name '_EQCUT.png']);
--    fprintf('Done\n');
++    fprintf('Done\n');
      
  end
